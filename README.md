@@ -1,4 +1,4 @@
-# PrintEasy - India's Premier Document Printing Service
+# PrintEasy 
 
 PrintEasy is a simple yet powerful web application that connects customers with local Xerox shops for hassle-free document printing. This project offers two portals:
 
@@ -87,40 +87,3 @@ If EmailJS is not configured, the app falls back to opening the default email cl
 
 ---
 
-## Limitations
-
-- Data and files are stored in browser localStorage; clearing browser data will remove all orders and files.
-- Email and SMS notifications are simulated or require EmailJS setup.
-- No backend or database integration — suitable for demo or small-scale use.
-
----
-
-## Future Enhancements
-
-- Backend API for persistent storage and secure authentication.
-- Real SMS integration using services like Twilio.
-- Admin dashboard for managing shops and users.
-- Payment gateway integration.
-- Multi-language support.
-
----
-
-## License
-
-This project is open source and free to use. No license specified.
-
----
-
-## Screenshots
-
-*(Add screenshots of the Customer Portal, Shop Owner Portal, and notifications here if desired)*
-
----
-
-## Contact
-
-For questions or contributions, please contact the project maintainer.
-
----
-
-Enjoy hassle-free printing with **PrintEasy**!
