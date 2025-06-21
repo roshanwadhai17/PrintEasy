@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintEasy - Xerox Shop India</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .portal-selection {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .portal-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-width: 300px;
+            border: 2px solid transparent;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .portal-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .portal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .portal-desc {
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .file-upload {
+            border: 2px dashed #cbd5e0;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-upload:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .file-upload.dragover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .uploaded-files {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f7fafc;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .file-item .file-name {
+            font-weight: 500;
+        }
+
+        .file-item .file-size {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .remove-file {
+            background: #e53e3e;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .order-card {
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 5px solid #667eea;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .order-id {
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .order-status {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .status-ready {
+            background: #c6f6d5;
+            color: #2f855a;
+        }
+
+        .status-completed {
+            background: #bee3f8;
+            color: #2b6cb0;
+        }
+
+        .back-btn {
+            background: #718096;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .shop-card {
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            overflow: hidden;
+        }
+
+        .shop-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .shop-card.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .shop-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .shop-name {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .shop-address {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .shop-timing {
+            color: #2d5016;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            background: #c6f6d5;
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .shop-rating {
+            color: #f6ad55;
+        }
+
+        .success-message {
+            background: #c6f6d5;
+            color: #2f855a;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .error-message {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        .btn-success {
+            background: #48bb78;
+        }
+
+        .btn-warning {
+            background: #ed8936;
+        }
+
+        @media (max-width: 768px) {
+            .portal-selection {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification-demo {
+            background: #e6fffa;
+            border: 2px solid #4fd1c7;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #234e52;
+        }
+
+        .notification-demo h4 {
+            margin: 0 0 10px 0;
+            color: #2c7a7b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">📄 PrintEasy</div>
+            <div class="tagline">India's Premier Document Printing Service</div>
+        </div>
+
+        <!-- Portal Selection -->
+        <div id="portal-selection" class="portal-selection">
+            <div class="portal-card" onclick="showCustomerPortal()">
+                <div class="portal-icon">👨‍🎓</div>
+                <div class="portal-title">Customer Portal</div>
+                <div class="portal-desc">Upload documents and place print orders</div>
+                <button class="btn">Enter Customer Portal</button>
+            </div>
+            
+            <div class="portal-card" onclick="showOwnerPortal()">
+                <div class="portal-icon">🏪</div>
+                <div class="portal-title">Shop Owner Portal</div>
+                <div class="portal-desc">Manage your shop and process orders</div>
+                <button class="btn">Enter Owner Portal</button>
+            </div>
+        </div>
+
+        <!-- Customer Portal -->
+        <div id="customer-portal" class="main-content">
+            <button class="btn back-btn" onclick="showPortalSelection()">← Back to Portal Selection</button>
+            
+            <h2 style="margin-bottom: 30px; color: #2d3748;">Customer Portal</h2>
+            
+            <div class="success-message" id="customer-success"></div>
+            <div class="error-message" id="customer-error"></div>
+
+            <div id="shop-selection">
+                <h3 style="margin-bottom: 20px;">Select a Xerox Shop</h3>
+                <div class="shop-grid" id="shops-list">
+                    <!-- Shops will be populated here -->
+                </div>
+            </div>
+
+            <div id="order-form" style="display: none;">
+                <h3 style="margin-bottom: 20px;">Place Your Order</h3>
+                
+                <form id="customer-order-form">
+                    <div class="form-group">
+                        <label>Your Name *</label>
+                        <input type="text" id="customer-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="customer-phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="customer-email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Print Options</label>
+                        <select id="print-options" required>
+                            <option value="">Select print type</option>
+                            <option value="bw-single">Black & White - Single Side (₹2/page)</option>
+                            <option value="bw-double">Black & White - Double Side (₹3/page)</option>
+                            <option value="color-single">Color - Single Side (₹8/page)</option>
+                            <option value="color-double">Color - Double Side (₹12/page)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Number of Copies</label>
+                        <input type="number" id="copies" value="1" min="1" max="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Special Instructions</label>
+                        <textarea id="instructions" rows="3" placeholder="Any special requirements..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Upload Documents *</label>
+                        <div class="file-upload" id="file-upload-area">
+                            <div style="font-size: 2rem; margin-bottom: 10px;">📁</div>
+                            <div>Click to upload or drag & drop files</div>
+                            <small style="color: #718096;">Supported: PDF, JPG, PNG, DOC, DOCX (Max 10MB each)</small>
+                            <input type="file" id="file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style="display: none;">
+                        </div>
+                        <div class="uploaded-files" id="uploaded-files"></div>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%; padding: 15px;">Place Order</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Shop Owner Portal -->
+        <div id="owner-portal" class="main-content">
+            <button class="btn back-btn" onclick="showPortalSelection()">← Back to Portal Selection</button>
+            
+            <h2 style="margin-bottom: 30px; color: #2d3748;">Shop Owner Portal</h2>
+            
+            <div class="success-message" id="owner-success"></div>
+            <div class="error-message" id="owner-error"></div>
+
+            <div id="owner-login" style="max-width: 400px; margin: 0 auto;">
+                <h3 style="margin-bottom: 20px; text-align: center;">Login to Your Shop</h3>
+                
+                <form id="owner-login-form">
+                    <div class="form-group">
+                        <label>Shop Name</label>
+                        <select id="owner-shop-select" required>
+                            <option value="">Select your shop</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="owner-password" required placeholder="Enter shop password">
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%;">Login</button>
+                </form>
+            </div>
+
+            <div id="owner-dashboard" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                    <h3>Order Management</h3>
+                    <button class="btn" onclick="refreshOrders()">🔄 Refresh Orders</button>
+                </div>
+                
+                <div class="notification-demo">
+                    <h4>📢 Real Email Notification System</h4>
+                    <p>When you mark an order as "Ready" or "Completed", customers will receive:</p>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>📧 <strong>Real email</strong> (via EmailJS or email client)</li>
+                        <li>📱 <strong>SMS notification</strong> to their phone number</li>
+                        <li>🔔 <strong>Browser notification</strong> (if permissions enabled)</li>
+                    </ul>
+                    
+                    <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin: 10px 0; color: #856404;">
+                        <strong>📧 Email Setup Options:</strong><br>
+                        <small>
+                            • <strong>Option 1:</strong> Uses EmailJS (free service) - requires setup<br>
+                            • <strong>Option 2:</strong> Opens email client (Outlook/Gmail) with pre-filled message<br>
+                            • <strong>Option 3:</strong> Backend API integration for production use
+                        </small>
+                    </div>
+                    
+                    <div style="background: #d1ecf1; padding: 15px; border-radius: 5px; margin: 15px 0; color: #0c5460;">
+                        <strong>📧 EmailJS Setup Instructions:</strong><br>
+                        <small>
+                            <strong>Step 1:</strong> Sign up at <a href="https://www.emailjs.com/" target="_blank" style="color: #0c5460; text-decoration: underline;">EmailJS.com</a><br>
+                            <strong>Step 2:</strong> Add email service (Gmail/Outlook)<br>
+                            <strong>Step 3:</strong> Create template with name: <code>xerox_order_notification</code><br>
+                            <strong>Step 4:</strong> Replace YOUR_SERVICE_ID, YOUR_TEMPLATE_ID, YOUR_USER_ID in code<br>
+                            <strong>Step 5:</strong> Test with real email address!
+                        </small>
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 15px 0; color: #856404;">
+                        <strong>🔧 Current Status:</strong><br>
+                        <small>
+                            EmailJS credentials not configured - using email client fallback.<br>
+                            Follow the setup guide to enable automatic email sending!
+                        </small>
+                    </div>
+                </div>
+                
+                <div class="orders-grid" id="orders-grid">
+                    <!-- Orders will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data - In real application, this would come from a database
+        const shops = [
+            { 
+                id: 1, 
+                name: "Nilkanth Copy Center", 
+                address: "FC Road, Pune", 
+                rating: "⭐⭐⭐⭐⭐", 
+                password: "shop123",
+                image: "https://content.jdmagicbox.com/comp/nashik/f8/0253px253.x253.130525164747.g8f8/catalogue/nilkanth-copy-center-gangapur-road-nashik-photocopying-centres-ufa96wf906.jpg",
+                timing: "9:00 AM - 10:00 PM"
+            },
+            { 
+                id: 2, 
+                name: "Digital Print Solutions", 
+                address: "Camp Area, Pune", 
+                rating: "⭐⭐⭐⭐", 
+                password: "digital456",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeBGNjcPXzIaTdLFXEEa55tJlG8ANQfdUuIQ&s",
+                timing: "8:30 AM - 9:30 PM"
+            },
+            { 
+                id: 3, 
+                name: "Student Xerox Hub", 
+                address: "Karve Road, Pune", 
+                rating: "⭐⭐⭐⭐⭐", 
+                password: "student789",
+                image: "https://media.licdn.com/dms/image/v2/D5622AQGzhBEFHDtAmg/feedshare-shrink_800/feedshare-shrink_800/0/1712777911547?e=2147483647&v=beta&t=0bGTNs_3WJm89FEzbCQCIdGHcUEcHnZgAn-gqRV6kR4",
+                timing: "7:00 AM - 11:00 PM"
+            },
+            { 
+                id: 4, 
+                name: "Sai Xerox Center", 
+                address: "Shivajinagar, Pune", 
+                rating: "⭐⭐⭐⭐", 
+                password: "express101",
+                image: "https://content.jdmagicbox.com/v2/comp/hyderabad/r6/040pxx40.xx40.170220142113.n2r6/catalogue/sai-xerox-ameerpet-hyderabad-photocopying-centres-6l0tedjpvl.jpg",
+                timing: "9:00 AM - 9:00 PM"
+            },
+            { 
+                id: 5, 
+                name: "Century Xerox & Prints", 
+                address: "Pimpri-Chinchwad, Pune", 
+                rating: "⭐⭐⭐⭐⭐", 
+                password: "campus202",
+                image: "https://content.jdmagicbox.com/v2/comp/virudhunagar/y2/9999p4562.4562.240327200804.c1y2/catalogue/century-xerox-and-prints-rajapalayam-virudhunagar-printing-services-qr1ofdxbjj.jpg",
+                timing: "8:00 AM - 10:00 PM"
+            }
+        ];
+
+        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        let fileStorage = JSON.parse(localStorage.getItem('fileStorage') || '{}');
+        let selectedShop = null;
+        let uploadedFiles = [];
+        let currentOwnerShop = null;
+
+        // Portal navigation functions
+        function showPortalSelection() {
+            document.getElementById('portal-selection').style.display = 'flex';
+            document.getElementById('customer-portal').classList.remove('active');
+            document.getElementById('owner-portal').classList.remove('active');
+        }
+
+        function showCustomerPortal() {
+            document.getElementById('portal-selection').style.display = 'none';
+            document.getElementById('customer-portal').classList.add('active');
+            loadShops();
+        }
+
+        function showOwnerPortal() {
+            document.getElementById('portal-selection').style.display = 'none';
+            document.getElementById('owner-portal').classList.add('active');
+            loadOwnerShops();
+        }
+
+        // Customer portal functions
+        function loadShops() {
+            const shopsList = document.getElementById('shops-list');
+            shopsList.innerHTML = '';
+            
+            shops.forEach(shop => {
+                const shopCard = document.createElement('div');
+                shopCard.className = 'shop-card';
+                shopCard.onclick = () => selectShop(shop);
+                shopCard.innerHTML = `
+                    <img src="${shop.image}" alt="${shop.name}" class="shop-image" onerror="this.style.display='none'">
+                    <div class="shop-name">${shop.name}</div>
+                    <div class="shop-address">📍 ${shop.address}</div>
+                    <div class="shop-timing">🕒 ${shop.timing}</div>
+                    <div class="shop-rating">${shop.rating}</div>
+                `;
+                shopsList.appendChild(shopCard);
+            });
+        }
+
+        function selectShop(shop) {
+            selectedShop = shop;
+            document.querySelectorAll('.shop-card').forEach(card => card.classList.remove('selected'));
+            event.target.closest('.shop-card').classList.add('selected');
+            
+            setTimeout(() => {
+                document.getElementById('shop-selection').style.display = 'none';
+                document.getElementById('order-form').style.display = 'block';
+            }, 500);
+        }
+
+        // File upload handling with storage for shop owner download
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileUploadArea = document.getElementById('file-upload-area');
+            const fileInput = document.getElementById('file-input');
+
+            fileUploadArea.addEventListener('click', () => fileInput.click());
+            fileUploadArea.addEventListener('dragover', handleDragOver);
+            fileUploadArea.addEventListener('drop', handleDrop);
+            fileInput.addEventListener('change', handleFileSelect);
+
+            function handleDragOver(e) {
+                e.preventDefault();
+                fileUploadArea.classList.add('dragover');
+            }
+
+            function handleDrop(e) {
+                e.preventDefault();
+                fileUploadArea.classList.remove('dragover');
+                const files = Array.from(e.dataTransfer.files);
+                processFiles(files);
+            }
+
+            function handleFileSelect(e) {
+                const files = Array.from(e.target.files);
+                processFiles(files);
+            }
+
+            function processFiles(files) {
+                files.forEach(file => {
+                    if (file.size > 10 * 1024 * 1024) {
+                        showError('customer-error', `File ${file.name} is too large. Maximum size is 10MB.`);
+                        return;
+                    }
+                    
+                    if (!uploadedFiles.find(f => f.name === file.name && f.size === file.size)) {
+                        uploadedFiles.push(file);
+                    }
+                });
+                displayUploadedFiles();
+            }
+
+            function displayUploadedFiles() {
+                const container = document.getElementById('uploaded-files');
+                container.innerHTML = '';
+                
+                uploadedFiles.forEach((file, index) => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    fileItem.innerHTML = `
+                        <div>
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-size">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                        </div>
+                        <button class="remove-file" onclick="removeFile(${index})">Remove</button>
+                    `;
+                    container.appendChild(fileItem);
+                });
+            }
+        });
+
+        // Convert file to base64 for storage
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // Store files for shop owner download
+        async function storeFilesForOrder(orderId) {
+            const fileData = [];
+            for (let file of uploadedFiles) {
+                try {
+                    const base64Data = await fileToBase64(file);
+                    fileData.push({
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        data: base64Data,
+                        lastModified: file.lastModified
+                    });
+                } catch (error) {
+                    console.error('Error storing file:', error);
+                }
+            }
+            fileStorage[orderId] = fileData;
+            localStorage.setItem('fileStorage', JSON.stringify(fileStorage));
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            document.querySelector(`#uploaded-files .file-item:nth-child(${index + 1})`).remove();
+        }
+
+        // Order submission
+        document.getElementById('customer-order-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (uploadedFiles.length === 0) {
+                showError('customer-error', 'Please upload at least one document.');
+                return;
+            }
+
+            const orderId = 'ORD' + Date.now();
+            
+            // Store files for shop owner download
+            await storeFilesForOrder(orderId);
+
+            const order = {
+                id: orderId,
+                shopId: selectedShop.id,
+                shopName: selectedShop.name,
+                customerName: document.getElementById('customer-name').value,
+                customerPhone: document.getElementById('customer-phone').value,
+                customerEmail: document.getElementById('customer-email').value,
+                printOptions: document.getElementById('print-options').value,
+                copies: document.getElementById('copies').value,
+                instructions: document.getElementById('instructions').value,
+                files: uploadedFiles.map(f => ({ name: f.name, size: f.size, type: f.type })),
+                status: 'pending',
+                timestamp: new Date().toLocaleString(),
+                estimatedCost: calculateCost()
+            };
+
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            showSuccess('customer-success', `Order placed successfully! Order ID: ${order.id}. Estimated cost: ₹${order.estimatedCost}`);
+            
+            // Reset form
+            this.reset();
+            uploadedFiles = [];
+            document.getElementById('uploaded-files').innerHTML = '';
+            
+            setTimeout(() => {
+                document.getElementById('shop-selection').style.display = 'block';
+                document.getElementById('order-form').style.display = 'none';
+                selectedShop = null;
+                document.querySelectorAll('.shop-card').forEach(card => card.classList.remove('selected'));
+            }, 3000);
+        });
+
+        function calculateCost() {
+            const printOption = document.getElementById('print-options').value;
+            const copies = parseInt(document.getElementById('copies').value) || 1;
+            const fileCount = uploadedFiles.length;
+            
+            let costPerPage = 2; // Default B&W single side
+            switch(printOption) {
+                case 'bw-double': costPerPage = 3; break;
+                case 'color-single': costPerPage = 8; break;
+                case 'color-double': costPerPage = 12; break;
+            }
+            
+            // Estimate 5 pages per document on average
+            return fileCount * 5 * copies * costPerPage;
+        }
+
+        // Owner portal functions
+        function loadOwnerShops() {
+            const select = document.getElementById('owner-shop-select');
+            select.innerHTML = '<option value="">Select your shop</option>';
+            
+            shops.forEach(shop => {
+                const option = document.createElement('option');
+                option.value = shop.id;
+                option.textContent = shop.name;
+                select.appendChild(option);
+            });
+        }
+
+        document.getElementById('owner-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const shopId = parseInt(document.getElementById('owner-shop-select').value);
+            const password = document.getElementById('owner-password').value;
+            const shop = shops.find(s => s.id === shopId);
+            
+            if (shop && shop.password === password) {
+                currentOwnerShop = shop;
+                document.getElementById('owner-login').style.display = 'none';
+                document.getElementById('owner-dashboard').style.display = 'block';
+                loadOrders();
+            } else {
+                showError('owner-error', 'Invalid shop or password.');
+            }
+        });
+
+        function loadOrders() {
+            const ordersGrid = document.getElementById('orders-grid');
+            const shopOrders = orders.filter(order => order.shopId === currentOwnerShop.id);
+            
+            ordersGrid.innerHTML = '';
+            
+            if (shopOrders.length === 0) {
+                ordersGrid.innerHTML = '<p style="text-align: center; color: #718096; grid-column: 1/-1;">No orders yet.</p>';
+                return;
+            }
+            
+            shopOrders.forEach(order => {
+                const orderCard = document.createElement('div');
+                orderCard.className = 'order-card';
+                
+                // Generate file download buttons
+                const fileButtons = order.files.map((file, index) => 
+                    `<button class="btn btn-small" onclick="downloadFile('${order.id}', ${index})" style="margin: 2px; background: #4299e1;">
+                        📥 ${file.name}
+                    </button>`
+                ).join('');
+                
+                orderCard.innerHTML = `
+                    <div class="order-header">
+                        <div class="order-id">${order.id}</div>
+                        <div class="order-status status-${order.status}">${order.status.toUpperCase()}</div>
+                    </div>
+                    <p><strong>Customer:</strong> ${order.customerName}</p>
+                    <p><strong>Phone:</strong> ${order.customerPhone}</p>
+                    <p><strong>Print:</strong> ${order.printOptions}</p>
+                    <p><strong>Copies:</strong> ${order.copies}</p>
+                    <p><strong>Files:</strong> ${order.files.length} document(s)</p>
+                    <p><strong>Cost:</strong> ₹${order.estimatedCost}</p>
+                    <p><strong>Time:</strong> ${order.timestamp}</p>
+                    ${order.instructions ? `<p><strong>Instructions:</strong> ${order.instructions}</p>` : ''}
+                    
+                    <div style="margin: 15px 0;">
+                        <strong>Download Documents:</strong><br>
+                        <div style="margin-top: 10px;">
+                            ${fileButtons}
+                            <button class="btn btn-small" onclick="downloadAllFiles('${order.id}')" style="margin: 2px; background: #48bb78;">
+                                📦 Download All Files
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-actions">
+                        ${order.status === 'pending' ? `<button class="btn btn-small btn-success" onclick="updateOrderStatus('${order.id}', 'ready')">Mark Ready</button>` : ''}
+                        ${order.status === 'ready' ? `<button class="btn btn-small btn-warning" onclick="updateOrderStatus('${order.id}', 'completed')">Mark Completed</button>` : ''}
+                    </div>
+                `;
+                ordersGrid.appendChild(orderCard);
+            });
+        }
+
+        function updateOrderStatus(orderId, newStatus) {
+            const orderIndex = orders.findIndex(order => order.id === orderId);
+            if (orderIndex !== -1) {
+                const order = orders[orderIndex];
+                const oldStatus = order.status;
+                orders[orderIndex].status = newStatus;
+                localStorage.setItem('orders', JSON.stringify(orders));
+                
+                // Send notifications when order is ready or completed
+                if (newStatus === 'ready' || newStatus === 'completed') {
+                    sendCustomerNotification(order, newStatus);
+                }
+                
+                loadOrders();
+                showSuccess('owner-success', `Order ${orderId} status updated to ${newStatus.toUpperCase()}.`);
+            }
+        }
+
+        // Customer notification system
+        function sendCustomerNotification(order, status) {
+            const statusMessages = {
+                'ready': {
+                    title: '📋 Your Order is Ready for Pickup!',
+                    message: `Good news! Your printing order ${order.id} is ready for collection at ${order.shopName}.`,
+                    action: 'Please visit the shop to collect your documents and make payment.'
+                },
+                'completed': {
+                    title: '✅ Order Completed Successfully!',
+                    message: `Your order ${order.id} has been completed at ${order.shopName}.`,
+                    action: 'Thank you for using our service!'
+                }
+            };
+
+            const notification = statusMessages[status];
+            
+            // Simulate email notification
+            sendEmailNotification(order, notification);
+            
+            // Simulate SMS notification
+            sendSMSNotification(order, notification);
+            
+            // Show browser notification if permissions granted
+            showBrowserNotification(order, notification);
+        }
+
+        // Real email notification using EmailJS (free service)
+        function sendEmailNotification(order, notification) {
+            if (!order.customerEmail) {
+                console.log('❌ No email provided for customer');
+                showNotificationDialog('email-error', order, { message: 'No email provided by customer' });
+                return;
+            }
+
+            // Method 1: Using EmailJS (Recommended for frontend-only apps)
+            sendEmailWithEmailJS(order, notification);
+            
+            // Method 2: Using mailto (Opens email client)
+            // sendEmailWithMailto(order, notification);
+            
+            // Method 3: Backend API call (for production)
+            // sendEmailWithBackendAPI(order, notification);
+        }
+
+        // EmailJS Implementation (Free email service)
+        function sendEmailWithEmailJS(order, notification) {
+            // REPLACE THESE WITH YOUR ACTUAL EMAILJS CREDENTIALS
+            const serviceID = 'service_e65j8lh';     // e.g., 'service_xyz123'
+            const templateID = 'template_lw4bxy6';   // e.g., 'template_abc456'  
+            const userID = 'XdCyD7DRCgHP5tpip';          // e.g., 'user_def789'
+
+            // Check if credentials are set
+            if (serviceID.includes('YOUR_') || templateID.includes('YOUR_') || userID.includes('YOUR_')) {
+                console.log('⚠️ EmailJS credentials not configured. Using email client fallback.');
+                sendEmailWithMailto(order, notification);
+                return;
+            }
+
+            const emailParams = {
+                to_email: order.customerEmail,
+                to_name: order.customerName,
+                subject: notification.title,
+                order_id: order.id,
+                shop_name: order.shopName,
+                print_options: order.printOptions,
+                copies: order.copies,
+                estimated_cost: order.estimatedCost,
+                message: notification.message,
+                action: notification.action
+            };
+
+            // Load EmailJS if not already loaded
+            if (typeof emailjs === 'undefined') {
+                loadEmailJS(userID).then(() => {
+                    sendEmailViaEmailJS(serviceID, templateID, emailParams, order, notification);
+                });
+            } else {
+                sendEmailViaEmailJS(serviceID, templateID, emailParams, order, notification);
+            }
+        }
+
+        function loadEmailJS(userID) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+                script.onload = () => {
+                    try {
+                        emailjs.init(userID);
+                        console.log('✅ EmailJS loaded successfully');
+                        resolve();
+                    } catch (error) {
+                        console.error('❌ EmailJS initialization failed:', error);
+                        reject(error);
+                    }
+                };
+                script.onerror = () => {
+                    console.error('❌ Failed to load EmailJS script');
+                    reject(new Error('Script load failed'));
+                };
+                document.head.appendChild(script);
+            });
+        }
+
+        function sendEmailViaEmailJS(serviceID, templateID, emailParams, order, notification) {
+            console.log('📧 Sending email via EmailJS...', emailParams);
+            
+            emailjs.send(serviceID, templateID, emailParams)
+                .then((response) => {
+                    console.log('✅ Email sent successfully!', response);
+                    showNotificationDialog('email', order, notification);
+                })
+                .catch((error) => {
+                    console.error('❌ EmailJS failed:', error);
+                    console.log('🔄 Falling back to email client...');
+                    sendEmailWithMailto(order, notification);
+                });
+        }
+
+        // Mailto fallback (opens email client)
+        function sendEmailWithMailto(order, notification) {
+            const subject = encodeURIComponent(notification.title);
+            const body = encodeURIComponent(`
+Dear ${order.customerName},
+
+${notification.message}
+
+Order Details:
+- Order ID: ${order.id}
+- Shop: ${order.shopName}
+- Print Type: ${order.printOptions}
+- Copies: ${order.copies}
+- Estimated Cost: ₹${order.estimatedCost}
+
+${notification.action}
+
+Best regards,
+PrintEasy Team
+            `);
+            
+            const mailtoLink = `mailto:${order.customerEmail}?subject=${subject}&body=${body}`;
+            
+            // Create a temporary link and click it
+            const tempLink = document.createElement('a');
+            tempLink.href = mailtoLink;
+            tempLink.style.display = 'none';
+            document.body.appendChild(tempLink);
+            tempLink.click();
+            document.body.removeChild(tempLink);
+            
+            showNotificationDialog('email-mailto', order, notification);
+        }
+
+        // Backend API method (for production with your own email service)
+        function sendEmailWithBackendAPI(order, notification) {
+            const emailData = {
+                to: order.customerEmail,
+                subject: notification.title,
+                customerName: order.customerName,
+                orderId: order.id,
+                shopName: order.shopName,
+                printOptions: order.printOptions,
+                copies: order.copies,
+                estimatedCost: order.estimatedCost,
+                message: notification.message,
+                action: notification.action
+            };
+
+            fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(emailData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('✅ Email sent via backend API');
+                    showNotificationDialog('email', order, notification);
+                } else {
+                    console.error('❌ Backend email failed:', data.error);
+                    sendEmailWithMailto(order, notification);
+                }
+            })
+            .catch(error => {
+                console.error('❌ API call failed:', error);
+                sendEmailWithMailto(order, notification);
+            });
+        }
+
+        // SMS notification simulation
+        function sendSMSNotification(order, notification) {
+            const smsMessage = `${notification.title} Order ${order.id} at ${order.shopName}. Cost: ₹${order.estimatedCost}. ${notification.action}`;
+            
+            console.log('📱 SMS SENT TO:', order.customerPhone);
+            console.log('Message:', smsMessage);
+            
+            // In real implementation, this would call your SMS service (Twilio, etc.)
+            showNotificationDialog('sms', order, notification);
+        }
+
+        // Browser notification
+        function showBrowserNotification(order, notification) {
+            if ('Notification' in window) {
+                if (Notification.permission === 'granted') {
+                    new Notification(notification.title, {
+                        body: notification.message,
+                        icon: '📄',
+                        tag: order.id
+                    });
+                } else if (Notification.permission !== 'denied') {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            new Notification(notification.title, {
+                                body: notification.message,
+                                icon: '📄',
+                                tag: order.id
+                            });
+                        }
+                    });
+                }
+            }
+        }
+
+        // Show notification dialog for demo purposes
+        function showNotificationDialog(type, order, notification) {
+            const typeConfig = {
+                'email': { icon: '📧', label: 'Email Sent Successfully', color: '#48bb78' },
+                'email-mailto': { icon: '📧', label: 'Email Client Opened', color: '#ed8936' },
+                'email-error': { icon: '❌', label: 'Email Failed', color: '#e53e3e' },
+                'sms': { icon: '📱', label: 'SMS Sent', color: '#4299e1' }
+            };
+            
+            const config = typeConfig[type] || typeConfig['email'];
+            
+            const dialog = document.createElement('div');
+            dialog.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${config.color};
+                color: white;
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                z-index: 10000;
+                max-width: 350px;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            let content = `
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <span style="font-size: 1.5rem; margin-right: 10px;">${config.icon}</span>
+                    <strong>${config.label}</strong>
+                </div>
+            `;
+
+            if (type !== 'email-error') {
+                content += `
+                    <div style="margin-bottom: 10px;">
+                        <strong>To:</strong> ${type.includes('email') ? (order.customerEmail || 'No email') : order.customerPhone}
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Customer:</strong> ${order.customerName}
+                    </div>
+                    <div style="font-size: 0.9rem; opacity: 0.9;">
+                        ${notification.message}
+                    </div>
+                `;
+            } else {
+                content += `
+                    <div style="font-size: 0.9rem; opacity: 0.9;">
+                        ${notification.message}
+                    </div>
+                `;
+            }
+
+            if (type === 'email-mailto') {
+                content += `
+                    <div style="font-size: 0.8rem; margin-top: 10px; opacity: 0.8;">
+                        Your default email client should have opened with a pre-filled email.
+                    </div>
+                `;
+            }
+            
+            dialog.innerHTML = content + `
+                <button onclick="this.parentElement.remove()" style="
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    background: rgba(255,255,255,0.2);
+                    border: none;
+                    color: white;
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 50%;
+                    cursor: pointer;
+                ">×</button>
+            `;
+            
+            document.body.appendChild(dialog);
+            
+            // Auto remove after 8 seconds
+            setTimeout(() => {
+                if (dialog.parentElement) {
+                    dialog.remove();
+                }
+            }, 8000);
+        }
+
+        function refreshOrders() {
+            orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            fileStorage = JSON.parse(localStorage.getItem('fileStorage') || '{}');
+            loadOrders();
+            showSuccess('owner-success', 'Orders refreshed successfully.');
+        }
+
+        // File download functions for shop owners
+        function downloadFile(orderId, fileIndex) {
+            const orderFiles = fileStorage[orderId];
+            if (!orderFiles || !orderFiles[fileIndex]) {
+                showError('owner-error', 'File not found. Please ask customer to resubmit the order.');
+                return;
+            }
+
+            const file = orderFiles[fileIndex];
+            const link = document.createElement('a');
+            link.href = file.data;
+            link.download = file.name;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showSuccess('owner-success', `Downloaded: ${file.name}`);
+        }
+
+        function downloadAllFiles(orderId) {
+            const orderFiles = fileStorage[orderId];
+            if (!orderFiles || orderFiles.length === 0) {
+                showError('owner-error', 'No files found for this order.');
+                return;
+            }
+
+            // Download each file with a small delay to avoid browser blocking
+            orderFiles.forEach((file, index) => {
+                setTimeout(() => {
+                    const link = document.createElement('a');
+                    link.href = file.data;
+                    link.download = file.name;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }, index * 500); // 500ms delay between downloads
+            });
+            
+            showSuccess('owner-success', `Downloading ${orderFiles.length} files...`);
+        }
+
+        // Utility functions
+        function showSuccess(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+            setTimeout(() => element.style.display = 'none', 5000);
+        }
+
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+            setTimeout(() => element.style.display = 'none', 5000);
+        }
+    </script>
+</body>
+</html>

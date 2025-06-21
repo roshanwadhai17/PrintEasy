@@ -1,0 +1,189 @@
+# EmailJS Setup Guide for Xerox Shop Website
+
+## Step 1: Create EmailJS Account
+
+1. **Go to EmailJS Website**
+   - Visit: https://www.emailjs.com/
+   - Click "Sign Up" (top right corner)
+
+2. **Register Your Account**
+   - Use your email address
+   - Create a strong password
+   - Verify your email address
+
+## Step 2: Add Email Service
+
+1. **Access Admin Panel**
+   - Login to your EmailJS account
+   - Go to "Email Services" tab
+
+2. **Add New Service**
+   - Click "Add New Service"
+   - Choose your email provider:
+     - **Gmail** (recommended for personal use)
+     - **Outlook** (for business accounts)
+     - **Yahoo Mail**
+     - **Custom SMTP** (for other providers)
+
+3. **Configure Gmail Service** (Most Common)
+   - Select "Gmail"
+   - Click "Connect Account"
+   - Sign in with your Gmail account
+   - Allow EmailJS permissions
+   - Give your service a name (e.g., "Xerox Shop Notifications")
+   - **Copy the Service ID** (e.g., `service_xyz123`) - You'll need this!
+
+## Step 3: Create Email Template
+
+1. **Go to Email Templates**
+   - Click "Email Templates" tab
+   - Click "Create New Template"
+
+2. **Template Configuration**
+   - **Template Name:** `xerox_order_notification`
+   - **From Name:** `PrintEasy - {{shop_name}}`
+   - **From Email:** Your verified email
+   - **Subject:** `{{subject}}`
+   - **To Email:** `{{to_email}}`
+
+3. **Email Template HTML Content**
+   Copy and paste this template:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; text-align: center; border-radius: 10px 10px 0 0; }
+        .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
+        .order-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #667eea; }
+        .button { background: #667eea; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0; }
+        .footer { text-align: center; margin-top: 30px; color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📄 PrintEasy Notification</h1>
+            <p>Your printing order status has been updated!</p>
+        </div>
+        
+        <div class="content">
+            <h2>Hello {{to_name}}! 👋</h2>
+            
+            <p>{{message}}</p>
+            
+            <div class="order-details">
+                <h3>📋 Order Details</h3>
+                <p><strong>Order ID:</strong> {{order_id}}</p>
+                <p><strong>Shop:</strong> {{shop_name}}</p>
+                <p><strong>Print Type:</strong> {{print_options}}</p>
+                <p><strong>Number of Copies:</strong> {{copies}}</p>
+                <p><strong>Estimated Cost:</strong> ₹{{estimated_cost}}</p>
+            </div>
+            
+            <p><strong>📍 Next Steps:</strong></p>
+            <p>{{action}}</p>
+            
+            <div style="background: #e8f4fd; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                <p><strong>📞 Shop Contact:</strong> Contact the shop directly if you have any questions about your order.</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Thank you for using PrintEasy! 🙏</p>
+            <p>This is an automated notification. Please do not reply to this email.</p>
+        </div>
+    </div>
+</body>
+</html>
+```
+
+4. **Save Template**
+   - Click "Save"
+   - **Copy the Template ID** (e.g., `template_abc456`) - You'll need this!
+
+## Step 4: Get Your User ID
+
+1. **Go to Account Settings**
+   - Click on your profile/account
+   - Find "API Keys" section
+   - **Copy your Public Key/User ID** (e.g., `user_def789`) - You'll need this!
+
+## Step 5: Update Website Code
+
+Replace these values in your website code:
+
+```javascript
+// Replace these with your actual EmailJS credentials
+const serviceID = 'service_xyz123';     // Your Service ID from Step 2
+const templateID = 'template_abc456';   // Your Template ID from Step 3  
+const userID = 'user_def789';          // Your User ID from Step 4
+```
+
+## Step 6: Test the System
+
+1. **Place a Test Order**
+   - Use the customer portal
+   - Enter a REAL email address
+   - Upload some test documents
+
+2. **Login as Shop Owner**
+   - Use any shop credentials (e.g., shop123)
+   - Find your test order
+   - Click "Mark Ready"
+
+3. **Check Email**
+   - Check the email inbox you used
+   - You should receive a beautifully formatted email!
+
+## Troubleshooting
+
+### Common Issues:
+
+1. **"EmailJS is not defined" Error**
+   - Make sure you're connected to the internet
+   - The EmailJS script loads automatically
+
+2. **Email Not Sending**
+   - Double-check all IDs are correct
+   - Verify your email service is connected
+   - Check EmailJS dashboard for error logs
+
+3. **Email Goes to Spam**
+   - Add your sending email to contacts
+   - Check spam/junk folder
+   - Use a verified domain for production
+
+### EmailJS Limits:
+
+- **Free Plan:** 200 emails/month
+- **Personal Plan:** 1,000 emails/month ($15)
+- **Professional Plan:** 10,000 emails/month ($70)
+
+## Advanced Features (Optional)
+
+### Auto-Reply Setup:
+- Create a separate template for order confirmations
+- Send immediate confirmation when order is placed
+
+### Attachment Support:
+- EmailJS supports attachments
+- Can send order receipts or shop location maps
+
+### Multiple Languages:
+- Create templates in Hindi, Marathi for local customers
+- Dynamic template selection based on customer preference
+
+## Security Notes
+
+- Never share your Private Key
+- Use only the Public Key in frontend code
+- Monitor your usage in EmailJS dashboard
+- Set up email quotas to prevent abuse
+
+---
+
+**🎉 Congratulations!** Your Xerox shop now has professional email notifications that will delight your customers and streamline your business operations.
